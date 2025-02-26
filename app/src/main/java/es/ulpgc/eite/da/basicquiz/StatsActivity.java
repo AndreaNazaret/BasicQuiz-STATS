@@ -77,8 +77,9 @@ public class StatsActivity extends AppCompatActivity {
         //  desactive el botón de "Next" para impedir avanzar a la siguiente pregunta
         backPressed=true;
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_CHEATED, answerCheated);
+        intent.putExtra(EXTRA_BACK, backPressed);
         setResult(RESULT_OK, intent);
+        finish();
     }
 
 
@@ -88,7 +89,11 @@ public class StatsActivity extends AppCompatActivity {
         // TODO:
         //  la pantalla "Stats" debe devolver un resultado a la pantalla "Question"
         //  para que esta última reinicie el Quiz
-
+        resetPressed=true;
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_RESET, resetPressed);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 
@@ -98,6 +103,11 @@ public class StatsActivity extends AppCompatActivity {
         // TODO:
         //  la pantalla "Stats" debe devolver un resultado a la pantalla "Question"
         //  para que esta última finalice la app Quiz
+        exitPressed=true;
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_EXIT, exitPressed);
+        setResult(RESULT_OK, intent);
+        finish();
 
     }
 
