@@ -23,6 +23,8 @@ public class StatsActivity extends AppCompatActivity {
 
     private int correctAnswers, totalQuestions;
 
+    private boolean backPressed, exitPressed, resetPressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,10 @@ public class StatsActivity extends AppCompatActivity {
         //  la pantalla "Stats" debe devolver un resultado a la pantalla "Question"
         //  para que esta última deje el estado de la pantalla como está pero
         //  desactive el botón de "Next" para impedir avanzar a la siguiente pregunta
-
+        backPressed=true;
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_CHEATED, answerCheated);
+        setResult(RESULT_OK, intent);
     }
 
 

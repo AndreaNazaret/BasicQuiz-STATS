@@ -16,7 +16,10 @@ public class QuestionActivity extends AppCompatActivity {
     public final static String KEY_RESULT = "KEY_RESULT";
     public final static String KEY_ENABLED = "KEY_ENABLED";
     public static final int CHEAT_REQUEST = 1;
-    public static final int STATS_REQUEST = 2;
+    public static final int STATS_REQUEST =2;
+
+
+
 
     private Button falseButton, trueButton;
     private Button cheatButton, nextButton, statsButton;
@@ -166,31 +169,47 @@ public class QuestionActivity extends AppCompatActivity {
         //  la pantalla "Stats" debe devolver un resultado a la pantalla "Question"
         //  para que esta última finalice la app Quiz
 
+        // TODO:
+        //  Modificar el codigo del siguiente "if" para que se cumplan estas condiciones:
+        //  Si el usuario ha visto la respuesta a la última pregunta en "Cheat",
+        //  desactivar todos los botones de la pantalla "Question"
+        //  Si el usuario ha visto la respuesta a cualquier otra pregunta,
+        //  llamar el metodo "onNextButtonClicked" para avanzar a la siguiente pregunta
+        //  utilizando el codigo que contiene el "if" ahora
 
+        if (requestCode == STATS_REQUEST && resultCode == RESULT_OK && intent != null) {
+            boolean back = intent.getBooleanExtra(StatsActivity.EXTRA_BACK, false);
+            boolean reset = intent.getBooleanExtra(StatsActivity.EXTRA_RESET, false);
+            boolean exit = intent.getBooleanExtra(StatsActivity.EXTRA_EXIT, false);
+
+            if(back){
+                nextButtonEnabled = false;
+            }
+
+            else if(reset){
+                questionIndex=0;
+                updateLayoutContent();
+            }
+
+            else if(exit) {
+                finish();
+            }
+
+        }
 
         if (requestCode == CHEAT_REQUEST && resultCode == RESULT_OK && intent != null) {
 
             boolean answerCheated = intent.getBooleanExtra(
-                CheatActivity.EXTRA_CHEATED, false
+                    CheatActivity.EXTRA_CHEATED, false
             );
-
-            //Log.d(TAG, "answerCheated: " + answerCheated);
-
-            // TODO:
-            //  Modificar el codigo del siguiente "if" para que se cumplan estas condiciones:
-            //  Si el usuario ha visto la respuesta a la última pregunta en "Cheat",
-            //  desactivar todos los botones de la pantalla "Question"
-            //  Si el usuario ha visto la respuesta a cualquier otra pregunta,
-            //  llamar el metodo "onNextButtonClicked" para avanzar a la siguiente pregunta
-            //  utilizando el codigo que contiene el "if" ahora
-
             if (answerCheated) {
 
                 nextButtonEnabled = true;
                 onNextButtonClicked();
             }
-
         }
+            //Log.d(TAG, "answerCheated: " + answerCheated);
+
 
     }
 
@@ -218,6 +237,8 @@ public class QuestionActivity extends AppCompatActivity {
         //  y de respuestas acertadas
 
         Intent intent = new Intent(this, StatsActivity.class);
+        intent.putExtra(StatsActivity.EXTRA_QUESTIONS, totalQuestions );
+        intent.putExtra(StatsActivity.EXTRA_ANSWERS, correctAnswers );
         startActivityForResult(intent, STATS_REQUEST); // Código de solicitud
     }
 
